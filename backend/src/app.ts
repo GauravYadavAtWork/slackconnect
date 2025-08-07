@@ -29,7 +29,7 @@ async function startServer() {
 startServer();
 
 app.get('/', async(req: any, res: any) => {
-  res.send(Date.now);
+  res.send("Server running");
 });
 
 app.listen(PORT, () => {

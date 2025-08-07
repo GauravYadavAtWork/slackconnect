@@ -14,6 +14,7 @@ interface SlackRequest extends Request {
 }
 
 router.post('/instantmessage', authMiddleware,  async (req: SlackRequest, res: Response) => {
+  console.log("Logging body of instant message:" ,req.body);
   const { teamId, channel, text } = req.body;
 
   if (!teamId || !channel || !text) {

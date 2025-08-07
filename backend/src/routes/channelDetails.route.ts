@@ -41,8 +41,6 @@ router.get('/getlist', authMiddleware, async (req: SlackRequest, res: Response) 
             return res.status(404).json({ error: 'No channels found' });
         }
 
-        console.log('Channels fetched successfully:', channels);
-
         return res.status(200).json({
             channels: channels.map((channel: any) => ({
                 id: channel.id,

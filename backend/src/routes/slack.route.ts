@@ -32,7 +32,7 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
         );
 
         const data = response.data;
-
+        console.log(data);
         if (!data.ok) {
             return res.status(400).json({ error: data.error || 'Slack auth failed' });
         }
@@ -40,6 +40,7 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
         return res.status(200).json({
             message: 'Slack auth successful',
             access_token: data.access_token,
+            refresh_token: data.refresh_token || "not found",
             team: data.team,
             authed_user: data.authed_user
         });

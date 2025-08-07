@@ -73,6 +73,9 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 
+// const baseurl = "https://slackconnect-s25w.onrender.com";
+const baseurl = "http://localhost:3000";
+
 function Home() {
   const location = useLocation()
   const [data, setData] = useState(null)
@@ -100,7 +103,7 @@ function Home() {
 
   const fetchChannelList = async (userId, accesstoken) => {
     try {
-      const response = await axios.get("https://slackconnect-s25w.onrender.com/channel/getlist", {
+      const response = await axios.get(baseurl + "/channel/getlist", {
         params: {
           authed_user: userId,
           access_token: accesstoken
@@ -120,13 +123,13 @@ function Home() {
     }
 
     try {
-      const response = await axios.post("https://slackconnect-s25w.onrender.com/message/instantmessage", {
+      const response = await axios.post(baseurl + "/message/instantmessage", {
         teamId: data.teamId,
         channel: selectedChannel,
-        text: message
+        text: message,
+        access_token: data.accesstoken
       }, {
         headers: {
-          access_token: data.accesstoken
         },
         params:{
           authed_user: data.userId,

@@ -64,6 +64,7 @@ async function isAccessTokenValid(accessToken: string): Promise<boolean> {
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Extract access token from request
+        
         const accessToken =
             req.body?.access_token ||
             req.headers['authorization']?.toString().replace('Bearer ', '') ||
@@ -109,6 +110,8 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         console.log("logging user:", user.authed_user);
         // Attach Slack user info to the request object
         (req as any).slackUser = user;
+        console.log("Calling next()");
+        console.log("Requesting: ", req.originalUrl);
 
         next();
     } catch (error: any) {

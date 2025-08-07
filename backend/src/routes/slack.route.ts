@@ -34,7 +34,6 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
 
         // now we have access token and refesh token
         const data = response.data;
-        console.log(data);
         if (!data.ok) {
             return res.status(400).json({ error: data.error || 'Slack auth failed' });
         }

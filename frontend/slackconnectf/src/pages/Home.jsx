@@ -10,12 +10,12 @@ function Home() {
     const queryParams = new URLSearchParams(location.search)
 
     const userId = queryParams.get("user_id")
-    const userName = queryParams.get("user_name")
-    const teamId = queryParams.get("team_id")
     const accesstoken = queryParams.get("access_token")
+    const teamId = queryParams.get("team_id")
+    const teamName = queryParams.get("team_name")
 
-    if (userId && userName && teamId && accesstoken) {
-      setData({ userId, userName, teamId, accesstoken })
+    if (userId && accesstoken && teamId && teamName) {
+      setData({ userId, accesstoken, teamId, teamName })
     }
   }, [location.search])
 

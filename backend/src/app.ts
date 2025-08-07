@@ -1,8 +1,8 @@
-// src/index.ts (CommonJS style)
+// src/index.ts
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const slack = require('./routes/slack.route')
+const slack = require('./routes/slack.route');
 import connectDB from './models/connectDB';
 dotenv.config();
 
@@ -13,6 +13,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use('/slack', slack);
+
+app.get('/', async (req: any, res: any) => {
+  res.send("Server running");
+});
 
 async function startServer() {
     try {
@@ -27,11 +31,3 @@ async function startServer() {
 }
 
 startServer();
-
-app.get('/', async(req: any, res: any) => {
-  res.send("Server running");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});

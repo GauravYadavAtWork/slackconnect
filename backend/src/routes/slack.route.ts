@@ -39,21 +39,24 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
             return res.status(400).json({ error: data.error || 'Slack auth failed' });
         }
 
-        // // now i will store data.authed_user to the db along with access and refresh token
+        // // now i will store data.authed_user.id to the db along with access and refresh token
         await SlackUser.create({
             authed_user: data.authed_user.id,
             access_token: data.access_token,
             refresh_token: data.refresh_token 
         });
 
-        // i will send it back to the client
-        return res.status(200).json({
-            message: 'Slack auth successful',
-            access_token: data.access_token,
-            // refresh_token: data.refresh_token || "not found",
-            team: data.team,
-            authed_user: data.authed_user
-        });
+        // i will send it back to the client in the form of json
+
+        // Redirect back to frontend with user and team info (secure in production)
+
+        const redirectUrl = new URL(process.env.FRONTEND_REDIRECT_URL || 'http://localhost:5173/home');
+        // Include all necessary query params
+        redirectUrl.searchParams.set('user_id', data.authed_user.id);
+        redirectUrl.searchParams.set('team_id', data.team.id);
+        redirectUrl.searchParams.set('team_name', data.team.name);
+        redirectUrl.searchParams.set('access_token', data.access_token);
+        return res.redirect(redirectUrl.toString());
 
     } catch (error: any) {
         console.error('Slack OAuth error:', error?.response?.data || error.message);

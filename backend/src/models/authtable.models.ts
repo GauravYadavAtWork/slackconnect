@@ -10,7 +10,7 @@ export interface ISlackUser extends Document {
 }
 
 const SlackUserSchema: Schema = new Schema({
-    authed_user: {type: String, required: true},
+    authed_user: {type: String, required: true, unique: true},
     access_token: { type: String, required: true },
     refresh_token: { type: String, required: true },
     teamid: { type: String, required: true },

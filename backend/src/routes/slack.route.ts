@@ -39,17 +39,31 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
             return res.status(400).json({ error: data.error || 'Slack auth failed' });
         }
 
-        const expiresIn = data.expires_in; // typically in seconds
-        const expiresAt = new Date(Date.now() + expiresIn * 1000); // calculate expiry time
+        // Calculate expiration date
+        const expiresAt = new Date(Date.now() + data.expires_in * 1000);
 
-        // // now i will store data.authed_user.id to the db along with access and refresh token
-        await SlackUser.create({
-            authed_user: data.authed_user.id,
-            access_token: data.access_token,
-            refresh_token: data.refresh_token,
-            teamid: data.team.id,
-            expires_at: expiresAt,
-        });
+        // Check if user already exists
+        const existingUser = await SlackUser.findOne({ authed_user: data.authed_user.id });
+
+        if (existingUser) {
+            // Update existing user
+            existingUser.access_token = data.access_token;
+            existingUser.refresh_token = data.refresh_token;
+            existingUser.teamid = data.team.id;
+            existingUser.expires_at = expiresAt;
+            await existingUser.save();
+            console.log('Slack user updated:', existingUser.authed_user);
+        } else {
+            // Create new user
+            await SlackUser.create({
+                authed_user: data.authed_user.id,
+                access_token: data.access_token,
+                refresh_token: data.refresh_token,
+                teamid: data.team.id,
+                expires_at: expiresAt,
+            });
+            console.log('New Slack user saved:', data.authed_user.id);
+        }
 
         // i will send it back to the client in the form of json
 

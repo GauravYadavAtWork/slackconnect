@@ -4,14 +4,6 @@ import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
 import SlackUser from '../models/authtable.models';
 
-// Helper to check if token is expired or will expire in next 10 minutes
-function isTokenExpiringSoon(expiresAt: Date): boolean {
-    const now = new Date();
-    const threshold = new Date(now.getTime() + 10 * 60 * 1000); // 10 minutes from now
-    return !expiresAt || expiresAt.getTime() < threshold.getTime();
-}
-
-
 // Function to refresh Slack access token using refresh_token
 async function rotateAccessToken(refreshToken: string): Promise<{
     access_token: string;
@@ -47,25 +39,60 @@ async function rotateAccessToken(refreshToken: string): Promise<{
     }
 }
 
+// Function to test if access token is valid via Slack API
+async function isAccessTokenValid(accessToken: string): Promise<boolean> {
+    try {
+        const response = await axios.post(
+            'https://slack.com/api/auth.test',
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
+
+        return response.data.ok === true;
+    } catch (error: any) {
+        console.error('Slack token validation failed:', error.message);
+        return false;
+    }
+}
+
 // Middleware
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const teamId = req.body.teamid || req.params.teamid;
+        // Extract access token from request
+        const accessToken =
+            req.body.access_token ||
+            req.headers['authorization']?.toString().replace('Bearer ', '') ||
+            req.query.access_token;
 
-        if (!teamId) {
-            return res.status(400).json({ error: 'Team ID is required' });
+        if (!accessToken) {
+            return res.status(401).json({ error: 'Access token is required' });
         }
 
-        const user = await SlackUser.findOne({ teamid: teamId });
+        // Get user ID from request (adjust depending on how you pass it)
+        const authedUserId = req.body.authed_user || req.params.authed_user || req.query.authed_user;
+
+        if (!authedUserId) {
+            return res.status(400).json({ error: 'authed_user is required' });
+        }
+
+        // Find user by authed_user
+        const user = await SlackUser.findOne({ authed_user: authedUserId });
 
         if (!user) {
-            return res.status(404).json({ error: 'Slack user not found for given team ID' });
+            return res.status(404).json({ error: 'Slack user not found for given user ID' });
         }
 
-        if (isTokenExpiringSoon(user.expires_at)) {
-            console.log('Access token is expired or about to expire. Refreshing...');
+        const tokenValid = await isAccessTokenValid(accessToken as string);
 
-            const newTokens = await rotateAccessToken(user.refresh_token); // implement it again here
+        if (!tokenValid) {
+            console.log('Access token is invalid. Attempting to refresh...');
+
+            const newTokens = await rotateAccessToken(user.refresh_token);
 
             if (!newTokens || !newTokens.access_token) {
                 return res.status(500).json({ error: 'Failed to refresh access token' });
@@ -76,16 +103,17 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
             user.expires_at = new Date(Date.now() + newTokens.expires_in * 1000);
 
             await user.save();
+
             console.log('Access token refreshed successfully.');
         }
 
-        // Attach user info to request for further use
+        // Attach Slack user info to the request object
         (req as any).slackUser = user;
 
         next();
     } catch (error: any) {
-        console.error('Auth middleware error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Auth middleware error:', error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 

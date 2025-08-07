@@ -64,8 +64,10 @@ async function isAccessTokenValid(accessToken: string): Promise<boolean> {
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Extract access token from request
+        console.log(req.body);
+        console.log(req.query);
         const accessToken =
-            req.body.access_token ||
+            req.body?.access_token ||
             req.headers['authorization']?.toString().replace('Bearer ', '') ||
             req.query.access_token;
 
@@ -74,7 +76,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         }
 
         // Get user ID from request (adjust depending on how you pass it)
-        const authedUserId = req.body.authed_user || req.params.authed_user || req.query.authed_user;
+        const authedUserId = req.body?.authed_user || req.params.authed_user || req.query.authed_user;
 
         if (!authedUserId) {
             return res.status(400).json({ error: 'authed_user is required' });

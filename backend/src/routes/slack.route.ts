@@ -10,7 +10,6 @@ const router = express.Router();
 
 router.get('/oauth/callback', async (req: Request, res: Response) => {
     const code = req.query.code as string;
-
     if (!code) {
         return res.status(400).json({ error: 'Missing code from Slack callback' });
     }
@@ -22,8 +21,8 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
             {
                 params: {
                     code,
-                    client_id: process.env.SLACK_CLIENT_ID,
-                    client_secret: process.env.SLACK_CLIENT_SECRET,
+                    client_id: process.env.SLACK_CLIENTID,
+                    client_secret: process.env.SLACK_CLIENTSECRET,
                     redirect_uri: process.env.SLACK_REDIRECT_URI
                 },
                 headers: {

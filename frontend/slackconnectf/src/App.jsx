@@ -3,9 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-const CLIENT_ID = "YOUR_SLACK_CLIENT_ID";
-const REDIRECT_URI = "http://localhost:3000/slack/callback";
-const SCOPES = "identity.basic"; // Add more scopes if needed
+const CLIENT_ID = "9328204862769.9319939219157"; // my client id
+const REDIRECT_URI = "https://slackconnect-s25w.onrender.com/slack/oauth/callback";
+const SCOPES = "channels:read,groups:read,im:read,mpim:read,users:read,chat:write,channels:history,im:history,channels:join";
 
 function App() {
   const handleLogin = () => {

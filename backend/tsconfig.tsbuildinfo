@@ -1,1 +1,1 @@
-{"root":["./src/app.ts","./src/routes/slack.route.ts"],"version":"5.9.2"}
+{"root":["./src/app.ts","./src/models/authtable.models.ts","./src/models/connectdb.ts","./src/routes/slack.route.ts"],"version":"5.9.2"}

@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const slack = require('./routes/slack.route')
 const channel = require('./routes/channelDetails.route')
+const message = require('./routes/messages.route')
 const connectDB = require('./models/connectDB')
 import bodyParser from 'body-parser';
 dotenv.config();
@@ -20,11 +21,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/slack', slack);
 app.use('/channel', channel);
+app.use('/message', message);
 
 app.get('/', (req: any, res: any) => {
   res.send('server healthy');
 });
-
 
 (async () => {
     await connectDB();

@@ -108,7 +108,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 
             console.log('Access token refreshed successfully.');
         }
-
+        console.log("logging user:", user);
         // Attach Slack user info to the request object
         (req as any).slackUser = user;
 

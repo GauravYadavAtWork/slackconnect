@@ -41,7 +41,7 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
 
         // // now i will store data.authed_user to the db along with access and refresh token
         await SlackUser.create({
-            authed_user: data.authed_user,
+            authed_user: data.authed_user.id,
             access_token: data.access_token,
             refresh_token: data.refresh_token 
         });

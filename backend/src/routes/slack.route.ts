@@ -3,7 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const dotenv = require('dotenv');
 import { Request, Response } from 'express';
-// import SlackUser from '../models/authtable.models';
+import SlackUser from '../models/authtable.models';
 
 dotenv.config();
 
@@ -40,11 +40,11 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
         }
 
         // // now i will store data.authed_user to the db along with access and refresh token
-        // await SlackUser.create({
-        //     authed_user: data.authed_user,
-        //     access_token: data.access_token,
-        //     refresh_token: data.refresh_token 
-        // });
+        await SlackUser.create({
+            authed_user: data.authed_user,
+            access_token: data.access_token,
+            refresh_token: data.refresh_token 
+        });
 
         // i will send it back to the client
         return res.status(200).json({

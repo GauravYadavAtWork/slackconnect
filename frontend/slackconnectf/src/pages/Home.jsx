@@ -126,8 +126,10 @@ function Home() {
         text: message
       }, {
         headers: {
-          authed_user: data.userId,
           access_token: data.accesstoken
+        },
+        params:{
+          authed_user: data.userId,
         }
       })
 

@@ -100,7 +100,8 @@ node dist/app.js
 ```
 
 Or using ts-node for development:
-
+  
+  
 ```bash
 npx ts-node src/app.ts
 ```

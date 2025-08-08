@@ -73,7 +73,9 @@ router.post('/scheduled', authMiddleware, async (req: SlackRequest, res: Respons
       teamId,
       channel,
       text,
-      schedule_time: new Date(schedule_time), // convert string to Date object
+      schedule_time: new Date(
+        new Date(schedule_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
+      ),      
     });
 
     await newScheduledMessage.save();

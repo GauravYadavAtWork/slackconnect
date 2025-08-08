@@ -72,7 +72,7 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
         redirectUrl.searchParams.set('user_id', data.authed_user.id);
         redirectUrl.searchParams.set('team_id', data.team.id);
         redirectUrl.searchParams.set('team_name', data.team.name);
-        redirectUrl.searchParams.set('access_token', data.access_token);
+        redirectUrl.searchParams.set('access_token', data.authed_user.access_token);
         return res.redirect(redirectUrl.toString());
 
     } catch (error: any) {

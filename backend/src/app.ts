@@ -6,6 +6,7 @@ const slack = require('./routes/slack.route')
 const channel = require('./routes/channelDetails.route')
 const message = require('./routes/messages.route')
 const connectDB = require('./models/connectDB')
+import { checkAndSendScheduledMessages } from './service/schedular';
 import bodyParser from 'body-parser';
 dotenv.config();
 
@@ -29,8 +30,13 @@ app.get('/', (req: any, res: any) => {
 
 (async () => {
     await connectDB();
-  
+
+    setInterval(() => { // try at every minute
+      checkAndSendScheduledMessages();
+    }, 60 * 1000);
+
     app.listen(PORT, () => {
       console.log(`Server is running at http://localhost:${PORT}`);
     });
 })();
+

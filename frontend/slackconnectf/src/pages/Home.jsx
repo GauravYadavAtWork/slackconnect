@@ -5,8 +5,8 @@ import ScheduledComp from './scheduledComp';
 import axios from 'axios';
 import './H2.css';
 
-const baseurl = "https://slackconnect-s25w.onrender.com";
-// const baseurl = "http://localhost:3000";
+// const baseurl = "https://slackconnect-s25w.onrender.com";
+const baseurl = "http://localhost:3000";
 
 function Home() {
   const location = useLocation();

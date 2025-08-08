@@ -96,13 +96,13 @@ FRONTEND_REDIRECT_URL=https://slackconnect.vercel.app/home
 
 ```bash
 npx tsc
-node dist/index.js
+node dist/app.js
 ```
 
 Or using ts-node for development:
 
 ```bash
-npx ts-node src/index.ts
+npx ts-node src/app.ts
 ```
 
 ---
@@ -135,7 +135,7 @@ npm install
 #### 3. Create `.env` file:
 
 ```env
-VITE_BACKEND_BASE_URL=http://localhost:3000
+FRONTEND_REDIRECT_URL=http://localhost:3000
 ```
 
 > Replace with your deployed backend URL if needed.

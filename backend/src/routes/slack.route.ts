@@ -37,7 +37,7 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
         if (!data.ok) {
             return res.status(400).json({ error: data.error || 'Slack auth failed' });
         }
-
+        console.log(data);
         // Calculate expiration date
         const expiresAt = new Date(Date.now() + data.expires_in * 1000);
 

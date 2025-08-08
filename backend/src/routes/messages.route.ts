@@ -88,4 +88,55 @@ router.post('/scheduled', authMiddleware, async (req: SlackRequest, res: Respons
   }
 });
 
+
+// /message/scheduledlist
+// get the list from the db
+// GET /message/scheduledlist
+router.get('/scheduledlist', authMiddleware, async (req: SlackRequest, res: Response) => {
+  const authed_user = req.query.authed_user as string;
+  const teamId = req.query.teamId as string;
+
+  if (!authed_user || !teamId) {
+    return res.status(400).json({ error: 'authed_user and teamId are required' });
+  }
+
+  try {
+    const messages = await ScheduledMessage.find({ authed_user, teamId }).sort({ schedule_time: 1 });
+
+    return res.status(200).json({ messages });
+  } catch (error) {
+    console.error("Error fetching scheduled messages:", error);
+    return res.status(500).json({ error: 'Failed to fetch scheduled messages' });
+  }
+});
+
+
+// delete route 
+// DELETE /message/scheduled/:id
+router.delete('/scheduled/:id', authMiddleware, async (req: SlackRequest, res: Response) => {
+  const messageId = req.params.id;
+  const authed_user = req.query.authed_user as string;
+
+  if (!messageId || !authed_user) {
+    return res.status(400).json({ error: 'Message ID and authed_user are required' });
+  }
+
+  try {
+    const deleted = await ScheduledMessage.findOneAndDelete({
+      _id: messageId,
+      authed_user
+    });
+
+    if (!deleted) {
+      return res.status(404).json({ error: 'Scheduled message not found or not authorized' });
+    }
+
+    return res.status(200).json({ message: 'Scheduled message deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting scheduled message:', error);
+    return res.status(500).json({ error: 'Failed to delete scheduled message' });
+  }
+});
+
+
 module.exports = router;

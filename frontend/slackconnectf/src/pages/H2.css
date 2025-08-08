@@ -1,0 +1,171 @@
+.left-content h1,
+.left-content h2,
+.left-content h3 {
+  color: white;
+}
+
+/* Main wrapper */
+.h2-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* LEFT PANEL (75%) */
+.left-panel {
+  position: relative;
+  width: 75%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* Video Background */
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Transparent Overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(97, 31, 105, 0.5); /* Slack purple tint */
+  z-index: 1;
+}
+
+/* Foreground Content */
+.left-content {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent */
+  padding: 40px;
+  border-radius: 12px;
+  backdrop-filter: blur(6px); /* Frosted glass effect */
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+}
+
+.left-content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.left-content h2 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Channel Dropdown */
+.channel-select {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: white;
+  color: #611f69;
+}
+
+/* Message Section */
+.message-section {
+  margin-top: 20px;
+}
+
+.message-section textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2); /* transparent white */
+  color: white;
+  font-size: 16px;
+  resize: none;
+  margin-bottom: 12px;
+  backdrop-filter: blur(4px); /* subtle glass effect */
+  outline: none;
+}
+
+.message-section textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* softer placeholder */
+}
+
+
+.message-section button {
+  padding: 10px 20px;
+  background-color: #4a154b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.message-section button:hover {
+  background-color: #611f69;
+}
+
+.message-section button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Success Message */
+.success-msg {
+  margin-top: 15px;
+  color: #ffffff !important;
+  /* font-weight: bold; */
+}
+
+/* RIGHT PANEL (25%) */
+.right-panel {
+  width: 25%;
+  height: 100%;
+  background: #4a154b;
+  color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.right-panel h2 {
+  margin-bottom: 20px;
+}
+
+.right-panel p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.right-panel {
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: #ffffff;
+}
+
+.scheduled-box-container {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}

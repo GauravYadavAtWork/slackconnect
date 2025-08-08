@@ -1,42 +1,118 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Root layout */
+.h2-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f5f7;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Left sidebar (User info) */
+.user-info {
+  width: 25%;
+  background-color: #4A154B;
+  color: white;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.user-info h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.user-info p {
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.card {
-  padding: 2em;
+/* Right panel (75% width for main content) */
+.right-panel {
+  flex: 1;
+  background: white;
+  padding: 50px 60px;
+  margin-left: 40px; /* space from sidebar */
+  color: #611f69;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.read-the-docs {
-  color: #888;
+/* Headings */
+.right-panel h1 {
+  font-weight: bold;
+  color: #611f69;
+  margin-bottom: 30px;
+}
+
+/* Dropdown */
+select.channel-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #E01E5A;
+  font-size: 16px;
+  background-color: white;
+  color: #611f69;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+select.channel-select:focus {
+  border-color: #36C5F0;
+  box-shadow: 0px 0px 8px rgba(54, 197, 240, 0.5);
+  outline: none;
+}
+
+/* Message box */
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 12px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 2px solid #E01E5A;
+  background-color: white;
+  color: #611f69;
+  resize: vertical;
+  margin-bottom: 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #36C5F0;
+  box-shadow: 0px 0px 8px rgba(54, 197, 240, 0.5);
+  outline: none;
+}
+
+/* Send button */
+button {
+  padding: 10px 20px;
+  background-color: #4A154B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  align-self: flex-start;
+}
+
+button:hover:not(:disabled) {
+  background-color: #611f69;
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success message */
+.success-msg {
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
 }

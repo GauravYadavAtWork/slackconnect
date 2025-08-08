@@ -1,81 +1,100 @@
-// ./pages/H2.jsx
-import { useState } from 'react'
+import { useState } from "react";
+import "./H2.css";
 
 function H2() {
   const data = {
     userId: "U12345678",
     accesstoken: "xoxp-dummy-access-token",
     teamId: "T12345678",
-    teamName: "Dummy Team"
-  }
+    teamName: "Dummy Team",
+  };
 
   const dummyChannels = [
     { id: "C1", name: "general", is_private: false },
     { id: "C2", name: "random", is_private: false },
-    { id: "C3", name: "private-group", is_private: true }
-  ]
+    { id: "C3", name: "private-group", is_private: true },
+  ];
 
-  const [selectedChannel, setSelectedChannel] = useState('')
-  const [message, setMessage] = useState('')
-  const [responseMsg, setResponseMsg] = useState('')
+  const [selectedChannel, setSelectedChannel] = useState("");
+  const [message, setMessage] = useState("");
+  const [responseMsg, setResponseMsg] = useState("");
 
   const handleSendMessage = () => {
-    if (!selectedChannel || !message) {
-      alert("Please select a channel and enter a message.")
-      return
+    if (!selectedChannel || !message.trim()) {
+      alert("Please select a channel and enter a message.");
+      return;
     }
 
-    console.log("Sending message to:", selectedChannel)
-    console.log("Message:", message)
-    setResponseMsg("Message sent successfully (dummy)!")
-    setMessage('')
-  }
+    const channelName = dummyChannels.find(
+      (c) => c.id === selectedChannel
+    )?.name;
+
+    console.log("Sending message to:", selectedChannel);
+    console.log("Message:", message);
+
+    setResponseMsg(`Message sent successfully to #${channelName} (dummy)!`);
+    setMessage("");
+  };
 
   return (
-    <div>
-      <h1>Slack OAuth Result</h1>
-      <div>
-        <p><strong>User ID:</strong> {data.userId}</p>
-        <p><strong>Access Token:</strong> {data.accesstoken}</p>
-        <p><strong>Team ID:</strong> {data.teamId}</p>
-        <p><strong>Team Name:</strong> {data.teamName}</p>
+    <div className="h2-wrapper">
+      {/* Left panel with video background */}
+      <div className="left-panel">
+        <video autoPlay muted loop playsInline className="bg-video">
+          <source src="/videoplayback.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="overlay"></div>
+
+        <div className="left-content">
+          <h1>Welcome to Slack</h1>
+          <h2>Choose a Channel</h2>
+
+          <select
+            className="channel-select"
+            value={selectedChannel}
+            onChange={(e) => setSelectedChannel(e.target.value)}
+          >
+            <option value="">-- Select a channel --</option>
+            {dummyChannels.map((channel) => (
+              <option key={channel.id} value={channel.id}>
+                #{channel.name} {channel.is_private && "(Private)"}
+              </option>
+            ))}
+          </select>
+
+          {selectedChannel && (
+            <div className="message-section">
+              <h3>
+                Send a Message to #
+                {dummyChannels.find((c) => c.id === selectedChannel)?.name}
+              </h3>
+              <textarea
+                rows="4"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your message here..."
+              />
+              
+              <button onClick={handleSendMessage} disabled={!message.trim()}>
+                Send
+              </button>
+            </div>
+          )}
+
+          {responseMsg && <p className="success-msg">{responseMsg}</p>}
+        </div>
       </div>
 
-      <h2>Channels</h2>
-      <ul>
-        {dummyChannels.map(channel => (
-          <li key={channel.id}>
-            <label>
-              <input
-                type="radio"
-                name="channel"
-                value={channel.id}
-                onChange={() => setSelectedChannel(channel.id)}
-              />
-              #{channel.name} {channel.is_private && "(Private)"}
-            </label>
-          </li>
-        ))}
-      </ul>
-
-      {selectedChannel && (
-        <div style={{ marginTop: '20px' }}>
-          <h3>Send a Message to #{dummyChannels.find(c => c.id === selectedChannel)?.name}</h3>
-          <textarea
-            rows="4"
-            cols="50"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message here..."
-          />
-          <br />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
-      )}
-
-      {responseMsg && <p>{responseMsg}</p>}
+      {/* Right panel */}
+      <div className="right-panel">
+        
+      </div>
     </div>
-  )
+  );
 }
 
-export default H2
+export default H2;
+
+
+

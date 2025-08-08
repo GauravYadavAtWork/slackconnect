@@ -46,8 +46,8 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
 
         if (existingUser) {
             // Update existing user
-            existingUser.access_token = data.access_token;
-            existingUser.refresh_token = data.refresh_token;
+            existingUser.access_token = data.authed_user.access_token;
+            existingUser.refresh_token = data.authed_user.refresh_token;
             existingUser.teamid = data.team.id;
             existingUser.expires_at = expiresAt;
             await existingUser.save();

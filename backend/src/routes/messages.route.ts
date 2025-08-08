@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import authMiddleware from '../middlewares/auth.middleware';
 import ScheduledMessage from '../models/scheduledmessages.models';
 import { WebClient } from '@slack/web-api';
+const { DateTime } = require("luxon");
 
 const router = express.Router();
 
@@ -68,14 +69,14 @@ router.post('/scheduled', authMiddleware, async (req: SlackRequest, res: Respons
   }
 
   try {
+    const scheduleTimeInUTC = DateTime.fromISO(schedule_time, { zone: 'Asia/Kolkata' }).toUTC().toJSDate();
+
     const newScheduledMessage = new ScheduledMessage({
       authed_user,
       teamId,
       channel,
       text,
-      schedule_time: new Date(
-        new Date(schedule_time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })
-      ),      
+      schedule_time: scheduleTimeInUTC, // stored in UTC
     });
 
     await newScheduledMessage.save();

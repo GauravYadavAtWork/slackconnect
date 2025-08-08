@@ -51,7 +51,7 @@ const sendMessage = async ({ authed_user, teamId, channel, text }: SendMessagePa
  */
 export const checkAndSendScheduledMessages = async () => {
   try {
-    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const now = new Date();
 
     const messagesToSend = await ScheduledMessage.find({
       schedule_time: { $lte: now },

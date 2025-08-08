@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Loginpage from './pages/loginpage'
 import Home from './pages/Home'
+import H2 from './pages/H2'
 import './App.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Routes>
       <Route path="/" element={<Loginpage />} />
       <Route path="/home" element={<Home />} />
+      <Route path="/hometest" element={<H2/>} />
     </Routes>
   </BrowserRouter>
 )

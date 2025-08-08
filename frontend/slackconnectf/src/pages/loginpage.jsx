@@ -2,6 +2,7 @@ import React from 'react'
 
 const CLIENT_ID = "9328204862769.9319939219157"; // my client id
 const REDIRECT_URI = "https://slackconnect-s25w.onrender.com/slack/oauth/callback";
+
 const SCOPES = "channels:read,groups:read,im:read,mpim:read,users:read,chat:write,channels:history,im:history,channels:join";
 const USER_SCOPES = "channels:read,channels:history,channels:write,chat:write,calls:read,groups:read,groups:write";
 

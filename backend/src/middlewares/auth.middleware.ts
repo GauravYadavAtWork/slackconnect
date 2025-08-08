@@ -28,8 +28,8 @@ async function rotateAccessToken(refreshToken: string): Promise<{
         console.log("Token refresh response:", data);
 
         return {
-            access_token: data.access_token,
-            refresh_token: data.refresh_token,
+            access_token: data.authed_user.access_token,
+            refresh_token: data.authed_user.refresh_token,
             expires_in: data.expires_in,
             scope: data.scope,
         };

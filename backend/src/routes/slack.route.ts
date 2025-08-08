@@ -56,8 +56,8 @@ router.get('/oauth/callback', async (req: Request, res: Response) => {
             // Create new user
             await SlackUser.create({
                 authed_user: data.authed_user.id,
-                access_token: data.access_token,
-                refresh_token: data.refresh_token,
+                access_token: data.authed_user.access_token,
+                refresh_token: data.authed_user.refresh_token,
                 teamid: data.team.id,
                 expires_at: expiresAt,
             });
